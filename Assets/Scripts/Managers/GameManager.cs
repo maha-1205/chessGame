@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Diagnostics;
+using UnityEngine.VFX;
 
 public class GameManager : Singleton<GameManager> {
 	[SerializeField]
@@ -133,7 +134,7 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	//EXPERIMENT_TIMER
-	void SetTimers() {
+	public void SetTimers() {
 		float timer = PlayerPrefs.GetInt(PLAYER_TIMER, DEFAULT_PLAYER_TIMER_MIN); //get in minutes
 		timer *= 60f; //convert to seconds
 		whiteTimer = blackTimer = timer;
@@ -146,7 +147,29 @@ public class GameManager : Singleton<GameManager> {
 		StartCoroutine(init());
 	}
 
-	IEnumerator init() {
+
+    public static void StopTimer()
+    {
+        GameManager.Instance.GameState.Stalemate();
+	
+    }
+
+
+    public static void StartTimer()
+    {
+        GameManager.Instance.GameState.Cancel();
+
+		
+    }
+
+	public  void ExitGame()
+	{
+		this.Start();
+    }
+
+	
+
+    IEnumerator init() {
 		Stopwatch timer = new Stopwatch();
 		timer.Start();
 
